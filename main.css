@@ -29,7 +29,7 @@ main {
     text-align: center;
 }
 .site-form{
-    padding: 0 450px 80px;
+    padding: 0 450px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;

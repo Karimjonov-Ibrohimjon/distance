@@ -6,31 +6,42 @@ let elCar = document.querySelector(".time-car")
 let elPLane = document.querySelector(".time-plane")
 
 let personSpeed = 3.6;
-let bikeSpeed = 20;
+let bikeSpeed = 20.1;
 let carSpeed = 70;
 let planeSpeed = 800;
 
-elForm.addEventListener("submit", function(evt){
-    evt.preventDefault()
+function checkTime(dis, speed) {
+	let hour = Math.floor(dis / speed);
+	let minutes = Math.floor((dis / speed - hour) * 60);
+	let seconds = Math.floor(((dis / speed - hour) * 60 - minutes) * 60);
 
-    let distance = Number(elInput.value)
+	return `Soat:${hour} Minut:${minutes} Sekund:${seconds}`;
+}
 
-    if(distance <= 0 ){
-        alert("Kiritilgan masofa 0 dan katta bo'lishi kerak!")
-    }
+elForm.addEventListener('submit', function (evt) {
+	evt.preventDefault();
 
-    let personTime = distance / personSpeed
-    let personMinutes = distance % personSpeed
-    let bikeTime = distance / bikeSpeed
-    let bikeMinutes = distance % bikeSpeed
-    let carTime = distance / carSpeed
-    let carMinutes = distance % carSpeed
-    let planeTime = distance / planeSpeed
-    let planeMinutes = distance % planeSpeed
+	let elInputValue = +elInput.value;
 
-    elPerson.textContent = `${Math.ceil(personTime)} H ${Math.ceil(personMinutes / personSpeed * 60)} M`
-    elBike.textContent = `${Math.ceil(bikeTime)} H ${Math.ceil(bikeMinutes / bikeSpeed * 60)} M`
-    elCar.textContent =  `${Math.ceil(carTime)} H ${Math.ceil(carMinutes / carSpeed * 60)} M`
-    elPLane.textContent =  `${Math.ceil(planeTime)} H ${Math.ceil(planeMinutes / planeSpeed * 60)} M`
+	jsMessage.style.color = 'red';
+	elInput.value = '';
+	if (elInputValue <= 0) {
+        elPerson.textContent = '';
+        elBike.textContent = '';
+        elCar.textContent = '';
+        elPLane.textContent = ''; 
+		jsMessage.textContent = 'Aka iltimos 0 dan katta son kiriting!';
+		return;
+	}
+	if (isNaN(elInputValue)) {
+		jsMessage.textContent = 'Aka iltimos raqam kiriting!';
+		return;
+	}
 
-})
+	jsMessage.textContent = '';
+
+	elPerson.textContent = checkTime(elInputValue, personSpeed);
+	elBike.textContent = checkTime(elInputValue, bikeSpeed);
+	elCar.textContent = checkTime(elInputValue, carSpeed);
+	elPLane.textContent = checkTime(elInputValue, planeSpeed);
+});
